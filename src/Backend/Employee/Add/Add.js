@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Layout from '../../../Layout/Layout';
 import axios from '../../../axios';
 import { withRouter } from 'react-router';
+import { Redirect } from 'react-router-dom';
 import './Add.css';
 
 
@@ -51,10 +52,10 @@ class Add extends React.Component {
 		    mobile: this.state.formControls.mobile.value,
 		    employee_type: this.state.formControls.employee_type.value
 		})
-		.then(function (response) {
+		.then((response) => {
 		    console.log(response);
-		    this.props.history.push('/');
-		    
+		    this.setState({redirect:true})
+		    //this.props.history.push('/');
 		})
 		.catch(function (error) {
 		    console.log(error);
@@ -69,6 +70,10 @@ class Add extends React.Component {
 	
 
     render() {
+    	if (this.state.redirect) {
+	      // redirect to home if signed up
+	      return <Redirect to = {{ pathname: "/" }} />;
+	    }
         return (
             <Layout>
             	
