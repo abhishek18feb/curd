@@ -13,7 +13,7 @@ exports.get_all = (req, res, next) => {
                     name: result.name,
                     email: result.email,
                     mobile: result.mobile,
-                    employee_type: result.employee_type,
+                    employee_type: result.employee_type[0],
                     _id: result._id,
                     request: {
                         type: 'GET',
