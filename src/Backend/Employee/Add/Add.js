@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Layout from '../../../Layout/Layout';
+import axios from '../../../axios';
+import { withRouter } from 'react-router';
 import './Add.css';
-const axios = require('axios');
+
 
 class Add extends React.Component {
     constructor(props) {
@@ -20,7 +22,8 @@ class Add extends React.Component {
         		employee_type:{
         			value:''
         		}
-        	}
+        	},
+        	redirect:false
         }
 	}
 
@@ -42,7 +45,7 @@ class Add extends React.Component {
 
 	submitFormHandler = event => {
 	  	event.preventDefault();
-	  	axios.post('http://localhost:5000/employee/add', {
+	  	axios.post('/employee/add', {
 		    name: this.state.formControls.name.value,
 		    email: this.state.formControls.email.value,
 		    mobile: this.state.formControls.mobile.value,
@@ -50,16 +53,25 @@ class Add extends React.Component {
 		})
 		.then(function (response) {
 		    console.log(response);
+		    this.props.history.push('/');
+		    
 		})
 		.catch(function (error) {
 		    console.log(error);
 		});
 	  	console.dir(this.state.formControls); //will give us the name value
 	}
+	setRedirect = () => {
+	    this.setState({
+	      redirect: true
+	    })
+	  }
+	
 
     render() {
         return (
             <Layout>
+            	
 				<div className="container">
 					   	<form onSubmit={this.submitFormHandler}>
 					      	<div className="row">
@@ -116,4 +128,4 @@ class Add extends React.Component {
     }
 }
 
-export default Add;
+export default withRouter(Add);
