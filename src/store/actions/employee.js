@@ -10,7 +10,7 @@ export const addEmployee = (values)=>{
 export const removeEmployee = (values) =>{
 	return {
 		type: actionTypes.REMOVE_EMPLOYEE,
-		value:values
+		resultElId:values
 	};
 }
 

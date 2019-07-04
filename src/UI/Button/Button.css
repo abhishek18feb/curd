@@ -1,0 +1,18 @@
+.Success {
+  background-color: #4CAF50; /* Green */
+  border-radius: 10px;
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.Primary {background-color: #008CBA;} /* Blue */
+.Danger {background-color: #f44336;} /* Red */ 
+.Default {background-color: #e7e7e7; color: black;} /* Gray */ 
+.Basic {background-color: #555555;} /* Black */
