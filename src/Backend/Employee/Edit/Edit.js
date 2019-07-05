@@ -3,10 +3,11 @@ import Layout from '../../../Layout/Layout';
 import axios from '../../../axios';
 import { withRouter } from 'react-router';
 import { Redirect } from 'react-router-dom';
-import './Add.css';
+import {connect} from 'react-redux';
+import './Edit.css';
 
 
-class Add extends React.Component {
+class Edit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,7 +28,27 @@ class Add extends React.Component {
         	redirect:false
         }
 	}
-
+	componentDidMount(){
+		let updatedArray=this.props.storedResult.filter(result=>result._id === this.props.match.params.id)
+		
+		this.setState({
+			formControls:{
+				name:{
+        			value: updatedArray[0].name
+        		},
+        		email:{
+        			value:updatedArray[0].email
+        		},
+        		mobile:{
+        			value:updatedArray[0].mobile
+        		},
+        		employee_type:{
+        			value:updatedArray[0].employee_type
+        		}
+			}
+		})
+		console.log(this.state.formControls)
+	}
 
     changeHandler = event => {
 	    const name = event.target.name;
@@ -46,7 +67,7 @@ class Add extends React.Component {
 
 	submitFormHandler = event => {
 	  	event.preventDefault();
-	  	axios.post('/employee/add', {
+	  	axios.patch('/employee/update/'+this.props.match.params.id, {
 		    name: this.state.formControls.name.value,
 		    email: this.state.formControls.email.value,
 		    mobile: this.state.formControls.mobile.value,
@@ -60,7 +81,7 @@ class Add extends React.Component {
 		.catch(function (error) {
 		    console.log(error);
 		});
-	  	//console.log(this.state.formControls); //will give us the name value
+	  	console.dir(this.state.formControls); //will give us the name value
 	}
 	setRedirect = () => {
 	    this.setState({
@@ -74,9 +95,10 @@ class Add extends React.Component {
 	      // redirect to home if signed up
 	      return <Redirect to = {{ pathname: "/" }} />;
 	    }
+	    //var selected = (this.state.formControls.employee_type==='Part_Time') ? 'selected' : 'false';
         return (
             <Layout>
-            	<h3>Employee Add</h3>
+				<h3>Employee Edit</h3>
 				<div className="container">
 					   	<form onSubmit={this.submitFormHandler}>
 					      	<div className="row">
@@ -115,7 +137,7 @@ class Add extends React.Component {
 					           		<label htmlFor="mobile">Employee Type</label>
 					         	</div>
 					         	<div className="col-75">
-					         		<select name="employee_type" onChange={this.changeHandler}>
+					         		<select name="employee_type" value={this.state.formControls.employee_type.value} onChange={this.changeHandler}>
 					         			<option value="">Select Emp Type</option>
 					         			<option value="Permanent">Permanent</option>
 					         			<option value="Part_Time">Part Time</option>
@@ -133,4 +155,10 @@ class Add extends React.Component {
     }
 }
 
-export default withRouter(Add);
+const mapStateToProps = state =>{
+	return {
+		storedResult:state.emp.results
+	}
+}
+
+export default connect(mapStateToProps) (withRouter(Edit));

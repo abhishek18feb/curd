@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import * as actionCreators from '../../store/actions/employee';
 import Button from '../../UI/Button/Button'; 
 import Confirm from '../../UI/Confirm/Confirm';
+import { withRouter } from 'react-router';
 import './Dashboard.css';
 
 
@@ -15,13 +16,9 @@ class Dashboard extends React.Component{
 	componentDidMount(){
 		axios.get('/employee')
 		.then((response)=>{
-			//console.log(response.data.result.employee);
 			let data = response.data.result.employee;
 			console.log(data.length, this.props.storedResult.length)
-			if(data.length !== this.props.storedResult.length){
-				this.props.updateAllEmployee(response.data.result.employee);
-			}
-			console.log(this.props.storedResult)
+			this.props.updateAllEmployee(response.data.result.employee);
 		})
 		.catch((error)=>console.log(error))		
 	}
@@ -30,6 +27,8 @@ class Dashboard extends React.Component{
 	}
 	buttonEditHandler = (empId) =>{
 		console.log('Edit button'+empId)
+		this.props.history.push(`/Employee/Edit/${empId}`);
+
 	}
 	buttonDeleteHandler = (empId) =>{
 		console.log('Delete button'+empId)
@@ -106,4 +105,4 @@ const mapDispatchToProps = dispatch =>{
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Dashboard));
