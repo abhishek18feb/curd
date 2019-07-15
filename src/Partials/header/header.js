@@ -11,7 +11,6 @@ import {
 const header = ()=>(
 		<div className="navbar">
 		  <NavLink to="/" exact>Home</NavLink>
-		  <a href="#news">News</a>
 		  <div className="dropdown">
 		    <button className="dropbtn">Employee 
 		      <i className="fa fa-caret-down"></i>
@@ -21,6 +20,7 @@ const header = ()=>(
 		      <a href="#">Link 2</a>
 		      <a href="#">Link 3</a>
 		    </div>
+		    <NavLink to="/wage">Wages</NavLink>
 		  </div> 
 		</div>
 
